@@ -1,0 +1,12 @@
+NanumSquare font
+Copyright (c) NAVER Corp.
+
+Distributed under the SIL Open Font License, Version 1.1.
+https://scripts.sil.org/OFL
+
+Files sourced from the official noonnu (NAVER) font distribution package
+https://www.npmjs.com/package/@noonnu/nanumsquare via jsDelivr CDN
+(https://cdn.jsdelivr.net/npm/@noonnu/nanumsquare/), used as an open-source
+substitute for the "Naver Sans" family referenced by this design system's
+`--font-sans` token (no public webfont distribution of Naver Sans itself was
+found; NanumSquare is the next fallback in that token's font stack).

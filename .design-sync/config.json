@@ -1,0 +1,21 @@
+{
+  "projectId": "cf9ccbfd-4e9b-4e64-a617-f12f57f6f443",
+  "pkg": "design-system",
+  "globalName": "DesignSystem",
+  "shape": "package",
+  "buildCmd": "npm run build:lib",
+  "cssEntry": "dist/design-system.css",
+  "tokensGlob": "tokens/*.json",
+  "docsDir": ".design-sync/docs-stubs",
+  "readmeHeader": ".design-sync/conventions.md",
+  "extraFonts": ["src/fonts/nanumsquare/index.css"],
+  "overrides": {
+    "Modal": { "cardMode": "single", "viewport": "360x400" },
+    "StatCard": { "cardMode": "column" },
+    "Tooltip": { "cardMode": "column" },
+    "AppBar": { "cardMode": "column" },
+    "AppMainHeader": { "cardMode": "column" },
+    "BottomNavigation": { "cardMode": "column" },
+    "Header": { "cardMode": "column" }
+  }
+}
