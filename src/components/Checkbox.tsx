@@ -34,6 +34,7 @@ export function Checkbox({
         <Icon
           name="check"
           size={14}
+          stroke={3}
           className="absolute inset-0 m-auto text-white opacity-0 peer-checked:opacity-100 pointer-events-none"
         />
       </span>
