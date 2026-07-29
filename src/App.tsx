@@ -110,6 +110,12 @@ function App() {
   const [searchValue, setSearchValue] = useState("디자인 시스템");
   const [chipSelected, setChipSelected] = useState<string[]>(["전체"]);
   const [bannerVisible, setBannerVisible] = useState(true);
+  const [selectedTracks, setSelectedTracks] = useState<string[]>(["t2"]);
+  const [tasks, setTasks] = useState([
+    { id: "d1", title: "디자인 리뷰 준비" },
+    { id: "d2", title: "온보딩 카피 수정" },
+    { id: "d3", title: "아이콘셋 정리" },
+  ]);
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
@@ -385,6 +391,7 @@ function App() {
           </div>
 
           <div className="max-w-md">
+            <p className="text-xs text-neutral-500 mb-2">아이콘 리스트</p>
             <ListItem
               leading={<Icon name="package" />}
               title="주문 배송 조회"
@@ -402,6 +409,74 @@ function App() {
               title="설정"
               showChevron
             />
+          </div>
+
+          <div className="max-w-md">
+            <p className="text-xs text-neutral-500 mb-2">이미지/썸네일 리스트</p>
+            {[
+              { id: "t1", title: "여름밤", desc: "잔나비" },
+              { id: "t2", title: "밤편지", desc: "아이유" },
+              { id: "t3", title: "밤하늘의 별을", desc: "경서" },
+            ].map((track) => (
+              <ListItem
+                key={track.id}
+                thumbnail={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Crect width='44' height='44' fill='%23c2f0d7'/%3E%3C/svg%3E`}
+                title={track.title}
+                description={track.desc}
+                trailing={<Icon name="play" size={16} />}
+              />
+            ))}
+          </div>
+
+          <div className="max-w-md">
+            <p className="text-xs text-neutral-500 mb-2">선택형 리스트</p>
+            {[
+              { id: "t1", title: "여름밤", desc: "잔나비" },
+              { id: "t2", title: "밤편지", desc: "아이유" },
+              { id: "t3", title: "밤하늘의 별을", desc: "경서" },
+            ].map((track) => (
+              <ListItem
+                key={track.id}
+                selectable
+                selected={selectedTracks.includes(track.id)}
+                onClick={() =>
+                  setSelectedTracks((prev) =>
+                    prev.includes(track.id)
+                      ? prev.filter((v) => v !== track.id)
+                      : [...prev, track.id]
+                  )
+                }
+                title={track.title}
+                description={track.desc}
+              />
+            ))}
+          </div>
+
+          <div className="max-w-md">
+            <p className="text-xs text-neutral-500 mb-2">액션 리스트</p>
+            {tasks.map((task) => (
+              <ListItem
+                key={task.id}
+                leading={<Icon name="check" size={16} />}
+                title={task.title}
+                trailing={
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setTasks((prev) => prev.filter((t) => t.id !== task.id));
+                    }}
+                    className="text-neutral-400 hover:text-danger-500"
+                  >
+                    <Icon name="trash" size={16} />
+                  </span>
+                }
+              />
+            ))}
+            {tasks.length === 0 && (
+              <p className="text-xs text-neutral-400 py-3">모든 작업을 완료했어요.</p>
+            )}
           </div>
         </div>
       </Section>
