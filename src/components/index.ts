@@ -33,3 +33,4 @@ export * from "./SearchBar";
 export * from "./Stepper";
 export * from "./Accordion";
 export * from "./Table";
+export * from "./Sidebar";

@@ -25,6 +25,7 @@ import { Radio } from "./components/Radio";
 import { Rating } from "./components/Rating";
 import { SearchBar } from "./components/SearchBar";
 import { Select } from "./components/Select";
+import { Sidebar } from "./components/Sidebar";
 import { Skeleton } from "./components/Skeleton";
 import { StatCard } from "./components/StatCard";
 import { Stepper } from "./components/Stepper";
@@ -104,6 +105,8 @@ function App() {
   const [tab, setTab] = useState("all");
   const [liked, setLiked] = useState(false);
   const [navValue, setNavValue] = useState("home");
+  const [adminNav, setAdminNav] = useState("dashboard");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [postLiked, setPostLiked] = useState(true);
   const [following, setFollowing] = useState(false);
   const [rating, setRating] = useState(4);
@@ -343,6 +346,62 @@ function App() {
                 ]}
               />
             </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Admin Sidebar">
+        <p className="text-xs text-neutral-500 mb-3">
+          관리자 화면용 좌측 내비게이션. 그룹 라벨, 배지, 접기/펼치기, 하단 사용자 정보를 지원합니다.
+        </p>
+        <div className="h-[420px] border border-neutral-200 rounded-lg overflow-hidden flex">
+          <Sidebar
+            groups={[
+              {
+                label: "개요",
+                items: [
+                  { value: "dashboard", label: "대시보드", icon: "home" },
+                  { value: "analytics", label: "통계", icon: "star" },
+                ],
+              },
+              {
+                label: "관리",
+                items: [
+                  { value: "users", label: "사용자", icon: "user", badge: "3" },
+                  { value: "content", label: "콘텐츠", icon: "package" },
+                  { value: "orders", label: "주문", icon: "cart" },
+                ],
+              },
+              {
+                label: "설정",
+                items: [{ value: "settings", label: "환경설정", icon: "settings" }],
+              },
+            ]}
+            activeValue={adminNav}
+            onNavigate={setAdminNav}
+            collapsed={sidebarCollapsed}
+            onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
+            footer={
+              !sidebarCollapsed ? (
+                <div className="flex items-center gap-2">
+                  <Avatar name="김지우" size="sm" />
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-neutral-900 truncate">김지우</p>
+                    <p className="text-[11px] text-neutral-400 truncate">관리자</p>
+                  </div>
+                </div>
+              ) : (
+                <Avatar name="김지우" size="sm" />
+              )
+            }
+          />
+          <div className="flex-1 bg-neutral-50 p-6">
+            <p className="text-sm font-medium text-neutral-900 mb-1">
+              현재 메뉴: {adminNav}
+            </p>
+            <p className="text-xs text-neutral-500">
+              사이드바 하단 화살표로 접고 펼칠 수 있어요.
+            </p>
           </div>
         </div>
       </Section>
