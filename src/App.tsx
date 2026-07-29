@@ -29,6 +29,7 @@ import { Skeleton } from "./components/Skeleton";
 import { StatCard } from "./components/StatCard";
 import { Stepper } from "./components/Stepper";
 import { Switch } from "./components/Switch";
+import { Table } from "./components/Table";
 import { Tabs } from "./components/Tabs";
 import { Textarea } from "./components/Textarea";
 import { Toast } from "./components/Toast";
@@ -249,7 +250,7 @@ function App() {
         </div>
 
         <p className="text-xs text-neutral-500 mt-6 mb-2">
-          Product Card (쇼핑 상품 카드)
+          Product Card (아이템 카드)
         </p>
         <div className="flex flex-wrap gap-4">
           <ProductCard
@@ -346,7 +347,7 @@ function App() {
         </div>
       </Section>
 
-      <Section title="Tabs & Lists">
+      <Section title="Tabs, Lists & Table">
         <div className="space-y-8">
           <div>
             <p className="text-xs text-neutral-500 mb-2">Underline (기본)</p>
@@ -478,6 +479,40 @@ function App() {
               <p className="text-xs text-neutral-400 py-3">모든 작업을 완료했어요.</p>
             )}
           </div>
+
+          <div>
+            <p className="text-xs text-neutral-500 mb-2">표 형식 (Table)</p>
+            <Table
+              columns={[
+                { key: "name", header: "이름" },
+                { key: "role", header: "역할" },
+                {
+                  key: "status",
+                  header: "상태",
+                  render: (row) => (
+                    <Badge
+                      tone={
+                        row.status === "진행중"
+                          ? "info"
+                          : row.status === "완료"
+                          ? "success"
+                          : "neutral"
+                      }
+                    >
+                      {row.status}
+                    </Badge>
+                  ),
+                },
+                { key: "progress", header: "진행률", align: "right" },
+              ]}
+              data={[
+                { id: 1, name: "홈 화면 리디자인", role: "김지우", status: "진행중", progress: "68%" },
+                { id: 2, name: "온보딩 플로우", role: "이서준", status: "완료", progress: "100%" },
+                { id: 3, name: "다크 모드 지원", role: "박민준", status: "대기", progress: "0%" },
+                { id: 4, name: "아이콘셋 확장", role: "이영희", status: "진행중", progress: "40%" },
+              ]}
+            />
+          </div>
         </div>
       </Section>
 
@@ -529,10 +564,10 @@ function App() {
             <p className="text-xs text-neutral-500 mb-2">Empty State</p>
             <div className="max-w-sm border border-neutral-200 rounded-lg">
               <EmptyState
-                icon="cart"
-                title="장바구니가 비어있어요"
-                description="관심 상품을 담아보세요."
-                action={<Button size="sm">쇼핑 계속하기</Button>}
+                icon="package"
+                title="아직 항목이 없어요"
+                description="새 항목을 추가하면 여기에 표시됩니다."
+                action={<Button size="sm">항목 추가하기</Button>}
               />
             </div>
           </div>

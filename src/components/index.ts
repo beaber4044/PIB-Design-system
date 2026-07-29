@@ -32,3 +32,4 @@ export * from "./Chip";
 export * from "./SearchBar";
 export * from "./Stepper";
 export * from "./Accordion";
+export * from "./Table";
