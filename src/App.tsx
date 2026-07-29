@@ -25,7 +25,7 @@ import { Radio } from "./components/Radio";
 import { Rating } from "./components/Rating";
 import { SearchBar } from "./components/SearchBar";
 import { Select } from "./components/Select";
-import { Sidebar } from "./components/Sidebar";
+import { Sidebar, SidebarToggle } from "./components/Sidebar";
 import { Skeleton } from "./components/Skeleton";
 import { StatCard } from "./components/StatCard";
 import { Stepper } from "./components/Stepper";
@@ -354,7 +354,7 @@ function App() {
         <p className="text-xs text-neutral-500 mb-3">
           관리자 화면용 좌측 내비게이션. 그룹 라벨, 배지, 접기/펼치기, 하단 사용자 정보를 지원합니다.
         </p>
-        <div className="h-[420px] border border-neutral-200 rounded-lg overflow-hidden flex">
+        <div className="relative h-[420px] border border-neutral-200 rounded-lg overflow-hidden flex">
           <Sidebar
             groups={[
               {
@@ -380,7 +380,6 @@ function App() {
             activeValue={adminNav}
             onNavigate={setAdminNav}
             collapsed={sidebarCollapsed}
-            onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
             footer={
               !sidebarCollapsed ? (
                 <div className="flex items-center gap-2">
@@ -395,12 +394,16 @@ function App() {
               )
             }
           />
+          <SidebarToggle
+            collapsed={sidebarCollapsed}
+            onClick={() => setSidebarCollapsed((v) => !v)}
+          />
           <div className="flex-1 bg-neutral-50 p-6">
             <p className="text-sm font-medium text-neutral-900 mb-1">
               현재 메뉴: {adminNav}
             </p>
             <p className="text-xs text-neutral-500">
-              사이드바 하단 화살표로 접고 펼칠 수 있어요.
+              사이드바 경계선의 원형 버튼으로 접고 펼칠 수 있어요.
             </p>
           </div>
         </div>

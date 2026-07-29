@@ -19,7 +19,6 @@ export interface SidebarProps extends Omit<HTMLAttributes<HTMLElement>, "onSelec
   activeValue: string;
   onNavigate: (value: string) => void;
   collapsed?: boolean;
-  onToggleCollapse?: () => void;
   logo?: ReactNode;
   footer?: ReactNode;
 }
@@ -29,7 +28,6 @@ export function Sidebar({
   activeValue,
   onNavigate,
   collapsed = false,
-  onToggleCollapse,
   logo,
   footer,
   className,
@@ -47,7 +45,7 @@ export function Sidebar({
       <div
         className={cn(
           "flex h-14 items-center border-b border-neutral-100 px-4",
-          collapsed ? "justify-center px-0" : "justify-between"
+          collapsed && "justify-center px-0"
         )}
       >
         {!collapsed &&
@@ -58,16 +56,6 @@ export function Sidebar({
             </div>
           ))}
         {collapsed && <span className="w-6 h-6 rounded-md bg-brand-500 shrink-0" />}
-        {onToggleCollapse && !collapsed && (
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            aria-label="사이드바 접기"
-            className="text-neutral-400 hover:text-neutral-700"
-          >
-            <Icon name="chevronLeft" size={16} />
-          </button>
-        )}
       </div>
 
       <nav className="flex-1 overflow-y-auto py-3">
@@ -115,17 +103,36 @@ export function Sidebar({
           {footer}
         </div>
       )}
-
-      {onToggleCollapse && collapsed && (
-        <button
-          type="button"
-          onClick={onToggleCollapse}
-          aria-label="사이드바 펼치기"
-          className="flex items-center justify-center border-t border-neutral-100 py-2.5 text-neutral-400 hover:text-neutral-700"
-        >
-          <Icon name="chevronRight" size={16} />
-        </button>
-      )}
     </aside>
+  );
+}
+
+export interface SidebarToggleProps extends Omit<HTMLAttributes<HTMLButtonElement>, "onClick"> {
+  collapsed: boolean;
+  onClick: () => void;
+}
+
+/**
+ * Rail-edge toggle button — render as a sibling of `Sidebar` inside a
+ * `relative` wrapper so it can straddle the sidebar's right border.
+ */
+export function SidebarToggle({ collapsed, onClick, className, ...props }: SidebarToggleProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={collapsed ? "사이드바 펼치기" : "사이드바 접기"}
+      className={cn(
+        "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10",
+        "flex h-6 w-6 items-center justify-center rounded-full",
+        "border border-neutral-200 bg-neutral-0 text-neutral-500 shadow-sm",
+        "hover:text-neutral-900 hover:border-neutral-300 transition-colors",
+        className
+      )}
+      style={{ left: collapsed ? 64 : 240 }}
+      {...props}
+    >
+      <Icon name={collapsed ? "chevronRight" : "chevronLeft"} size={13} />
+    </button>
   );
 }
