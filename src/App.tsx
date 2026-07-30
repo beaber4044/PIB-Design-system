@@ -15,6 +15,7 @@ import { Header } from "./components/Header";
 import { Icon, icons, type IconName } from "./components/Icon";
 import { Input } from "./components/Input";
 import { ListItem } from "./components/ListItem";
+import { LogoutButton } from "./components/LogoutButton";
 import { Modal } from "./components/Modal";
 import { NotificationBanner } from "./components/NotificationBanner";
 import { PostCard } from "./components/PostCard";
@@ -24,6 +25,7 @@ import { ProgressBar } from "./components/ProgressBar";
 import { Radio } from "./components/Radio";
 import { Rating } from "./components/Rating";
 import { SearchBar } from "./components/SearchBar";
+import { PasswordInput } from "./components/PasswordInput";
 import { Select } from "./components/Select";
 import { Sidebar, SidebarToggle } from "./components/Sidebar";
 import { Skeleton } from "./components/Skeleton";
@@ -218,6 +220,15 @@ function App() {
               <option value="b">옵션 B</option>
             </Select>
             <Textarea placeholder="여러 줄 텍스트를 입력하세요" />
+            <PasswordInput placeholder="비밀번호를 입력하세요" />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <p className="text-xs text-neutral-500 mb-2">Logout Button</p>
+          <div className="flex flex-wrap items-center gap-4">
+            <LogoutButton variant="text" />
+            <LogoutButton variant="box" />
           </div>
         </div>
       </Section>

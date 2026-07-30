@@ -1,4 +1,4 @@
-import type { SelectHTMLAttributes } from "react";
+import { useState, type SelectHTMLAttributes } from "react";
 import { cn } from "../lib/cn";
 import { Icon } from "./Icon";
 
@@ -6,7 +6,16 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean;
 }
 
-export function Select({ error, className, children, ...props }: SelectProps) {
+export function Select({
+  error,
+  className,
+  children,
+  onFocus,
+  onBlur,
+  ...props
+}: SelectProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <span className="relative inline-block w-full">
       <select
@@ -17,6 +26,14 @@ export function Select({ error, className, children, ...props }: SelectProps) {
           error ? "border-danger-500 focus:outline-danger-500" : "border-neutral-300",
           className
         )}
+        onFocus={(e) => {
+          setOpen(true);
+          onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          setOpen(false);
+          onBlur?.(e);
+        }}
         {...props}
       >
         {children}
@@ -24,7 +41,10 @@ export function Select({ error, className, children, ...props }: SelectProps) {
       <Icon
         name="chevronDown"
         size={16}
-        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400"
+        className={cn(
+          "pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 transition-transform",
+          open && "rotate-180"
+        )}
       />
     </span>
   );

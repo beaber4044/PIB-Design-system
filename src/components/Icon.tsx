@@ -29,6 +29,7 @@ import {
   IconLock,
   IconMail,
   IconLogout,
+  IconEye,
   IconEyeOff,
   IconCamera,
   IconPhoto,
@@ -82,6 +83,7 @@ export const icons = {
   lock: IconLock,
   mail: IconMail,
   logout: IconLogout,
+  eye: IconEye,
   eyeOff: IconEyeOff,
 
   // Media

@@ -34,3 +34,5 @@ export * from "./Stepper";
 export * from "./Accordion";
 export * from "./Table";
 export * from "./Sidebar";
+export * from "./PasswordInput";
+export * from "./LogoutButton";
