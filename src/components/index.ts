@@ -36,3 +36,4 @@ export * from "./Table";
 export * from "./Sidebar";
 export * from "./PasswordInput";
 export * from "./LogoutButton";
+export * from "./IconButton";

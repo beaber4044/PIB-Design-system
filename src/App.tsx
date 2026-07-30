@@ -13,6 +13,7 @@ import { Divider } from "./components/Divider";
 import { EmptyState } from "./components/EmptyState";
 import { Header } from "./components/Header";
 import { Icon, icons, type IconName } from "./components/Icon";
+import { IconButton } from "./components/IconButton";
 import { Input } from "./components/Input";
 import { ListItem } from "./components/ListItem";
 import { LogoutButton } from "./components/LogoutButton";
@@ -183,10 +184,21 @@ function App() {
             Disabled
           </Button>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
           <Button size="lg">Large</Button>
+        </div>
+
+        <p className="text-xs text-neutral-500 mb-2">Icon Button</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <IconButton icon="bell" variant="filled" aria-label="알림" />
+          <IconButton icon="edit" variant="outline" aria-label="수정" />
+          <IconButton icon="trash" variant="ghost" aria-label="삭제" />
+          <IconButton icon="heart" variant="ghost" rounded aria-label="찜하기" />
+          <IconButton icon="settings" variant="outline" size="sm" aria-label="설정" />
+          <IconButton icon="search" variant="filled" size="lg" aria-label="검색" />
+          <IconButton icon="trash" variant="ghost" disabled aria-label="삭제 (비활성)" />
         </div>
       </Section>
 
