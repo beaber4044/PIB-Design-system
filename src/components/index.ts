@@ -45,3 +45,4 @@ export * from "./Pagination";
 export * from "./DataTable";
 export * from "./LineChart";
 export * from "./AppCard";
+export * from "./PeriodPicker";

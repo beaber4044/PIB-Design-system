@@ -27,6 +27,7 @@ import { LogoutButton } from "./components/LogoutButton";
 import { Modal } from "./components/Modal";
 import { NotificationBanner } from "./components/NotificationBanner";
 import { Pagination } from "./components/Pagination";
+import { PeriodPicker } from "./components/PeriodPicker";
 import { PostCard } from "./components/PostCard";
 import { ProductCard } from "./components/ProductCard";
 import { ProfileCard } from "./components/ProfileCard";
@@ -130,6 +131,9 @@ function App() {
   const [tablePage, setTablePage] = useState(1);
   const [tableSelected, setTableSelected] = useState<(string | number)[]>([2]);
   const [favoritedApps, setFavoritedApps] = useState<string[]>(["board"]);
+  const [periodPreset, setPeriodPreset] = useState("1m");
+  const [periodStart, setPeriodStart] = useState("2026-07-01");
+  const [periodEnd, setPeriodEnd] = useState("2026-07-31");
   const [selectedTracks, setSelectedTracks] = useState<string[]>(["t2"]);
   const [tasks, setTasks] = useState([
     { id: "d1", title: "디자인 리뷰 준비" },
@@ -498,6 +502,18 @@ function App() {
               <Input placeholder="상품명 검색" className="w-40" />
             </FilterField>
           </FilterBar>
+        </div>
+
+        <div className="mb-8">
+          <p className="text-xs text-neutral-500 mb-2">Period Picker (기간 설정)</p>
+          <PeriodPicker
+            preset={periodPreset}
+            onPresetChange={setPeriodPreset}
+            startValue={periodStart}
+            endValue={periodEnd}
+            onStartChange={setPeriodStart}
+            onEndChange={setPeriodEnd}
+          />
         </div>
 
         <div className="mb-8">
