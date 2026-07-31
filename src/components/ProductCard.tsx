@@ -53,9 +53,9 @@ export function ProductCard({
         >
           <Icon
             name="heart"
+            solid={liked}
             size={15}
             className={liked ? "text-danger-500" : "text-neutral-400"}
-            fill={liked ? "currentColor" : "none"}
           />
         </button>
       </div>
