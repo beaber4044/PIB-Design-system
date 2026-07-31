@@ -329,7 +329,17 @@ export interface IconComponentProps extends Omit<IconProps, "ref"> {
   solid?: boolean;
 }
 
+// Tabler icons draw on a 24-unit viewBox and scale it to `size` px, so the
+// rendered stroke is `stroke * (size / 24)` — below ~14px that can dip
+// under 1 physical pixel and disappear. Floor it so every icon, at any
+// size, keeps at least a 1px stroke.
+const VIEWBOX = 24;
+
 export function Icon({ name, solid, size = 20, stroke = 1.75, ...props }: IconComponentProps) {
   const Component = (solid && solidIcons[name]) || icons[name];
-  return <Component size={size} stroke={stroke} {...props} />;
+  const numericSize = typeof size === "number" ? size : Number(size);
+  const numericStroke = typeof stroke === "number" ? stroke : Number(stroke);
+  const minStroke = Number.isFinite(numericSize) && numericSize > 0 ? VIEWBOX / numericSize : 0;
+  const effectiveStroke = Math.max(numericStroke, minStroke);
+  return <Component size={size} stroke={effectiveStroke} {...props} />;
 }
