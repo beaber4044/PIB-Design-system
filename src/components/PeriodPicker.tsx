@@ -25,6 +25,38 @@ const defaultPresets: PeriodPreset[] = [
   { label: "전체", value: "all" },
 ];
 
+function DateInput({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <span className="relative inline-block">
+      <input
+        type="date"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={cn(
+          "h-9 w-36 rounded-md border border-neutral-300 bg-neutral-0 pl-3 pr-8 text-xs text-neutral-900",
+          "focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-brand-500",
+          // Hide the native calendar glyph but stretch it over the whole
+          // field, so clicking anywhere in the box opens the date picker.
+          "[&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0",
+          "[&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-full",
+          "[&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+        )}
+      />
+      <Icon
+        name="calendar"
+        size={14}
+        className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400"
+      />
+    </span>
+  );
+}
+
 export function PeriodPicker({
   startValue,
   endValue,
@@ -58,33 +90,9 @@ export function PeriodPicker({
       )}
 
       <div className="flex items-center gap-2">
-        <span className="relative">
-          <Icon
-            name="calendar"
-            size={14}
-            className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400"
-          />
-          <input
-            type="date"
-            value={startValue}
-            onChange={(e) => onStartChange(e.target.value)}
-            className="h-9 w-36 rounded-md border border-neutral-300 bg-neutral-0 pl-8 pr-2 text-xs text-neutral-900 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-brand-500"
-          />
-        </span>
+        <DateInput value={startValue} onChange={onStartChange} />
         <Icon name="arrowRight" size={14} className="text-neutral-400 shrink-0" />
-        <span className="relative">
-          <Icon
-            name="calendar"
-            size={14}
-            className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400"
-          />
-          <input
-            type="date"
-            value={endValue}
-            onChange={(e) => onEndChange(e.target.value)}
-            className="h-9 w-36 rounded-md border border-neutral-300 bg-neutral-0 pl-8 pr-2 text-xs text-neutral-900 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-brand-500"
-          />
-        </span>
+        <DateInput value={endValue} onChange={onEndChange} />
       </div>
     </div>
   );
