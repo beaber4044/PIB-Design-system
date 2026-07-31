@@ -46,3 +46,4 @@ export * from "./DataTable";
 export * from "./LineChart";
 export * from "./AppCard";
 export * from "./PeriodPicker";
+export * from "./IconTile";

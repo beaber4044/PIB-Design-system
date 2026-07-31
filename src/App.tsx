@@ -19,6 +19,7 @@ import { EmptyState } from "./components/EmptyState";
 import { FilterBar, FilterField } from "./components/FilterBar";
 import { Header } from "./components/Header";
 import { Icon, icons, type IconName } from "./components/Icon";
+import { IconTile } from "./components/IconTile";
 import { IconButton } from "./components/IconButton";
 import { Input } from "./components/Input";
 import { LineChart } from "./components/LineChart";
@@ -794,6 +795,52 @@ function App() {
               <span className="text-xs text-neutral-500">{name}</span>
             </div>
           ))}
+        </div>
+      </Section>
+
+      <Section title="Colored Icons">
+        <div className="space-y-8">
+          <div>
+            <p className="text-xs text-neutral-500 mb-2">
+              솔리드 (Icon solid — 아이콘 자체를 색으로 채움)
+            </p>
+            <div className="flex flex-wrap items-center gap-5">
+              <Icon name="home" solid size={28} className="text-brand-500" />
+              <Icon name="star" solid size={28} className="text-warning-500" />
+              <Icon name="heart" solid size={28} className="text-danger-500" />
+              <Icon name="bell" solid size={28} className="text-info-500" />
+              <Icon name="shieldCheck" solid size={28} className="text-success-500" />
+              <Icon name="bookmark" solid size={28} className="text-neutral-700" />
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs text-neutral-500 mb-2">
+              듀오톤 타일 (IconTile — 연한 배경 + 톤 매칭 아이콘)
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <IconTile icon="users" tone="brand" />
+              <IconTile icon="chartBar" tone="info" />
+              <IconTile icon="bolt" tone="warning" />
+              <IconTile icon="heart" tone="danger" />
+              <IconTile icon="shieldCheck" tone="success" />
+              <IconTile icon="settings" tone="neutral" />
+              <IconTile icon="folder" tone="brand" shape="circle" />
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs text-neutral-500 mb-2">
+              듀오톤 · 솔리드 배경 (IconTile solid)
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <IconTile icon="package" tone="brand" solid />
+              <IconTile icon="chartPie" tone="info" solid />
+              <IconTile icon="flag" tone="warning" solid />
+              <IconTile icon="thumbDown" tone="danger" solid />
+              <IconTile icon="shieldCheck" tone="success" solid shape="circle" />
+            </div>
+          </div>
         </div>
       </Section>
 

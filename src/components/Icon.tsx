@@ -84,6 +84,64 @@ import {
   IconTrendingUp,
   IconArrowLeft,
   IconArrowsSort,
+  // Solid ("Filled") counterparts — used when <Icon solid /> is set
+  IconSearchFilled,
+  IconMenu2Filled,
+  IconChevronRightFilled,
+  IconTrashFilled,
+  IconEditFilled,
+  IconXFilled,
+  IconCopyFilled,
+  IconDownloadFilled,
+  IconShoppingCartFilled,
+  IconCreditCardFilled,
+  IconGiftFilled,
+  IconTagFilled,
+  IconTruckFilled,
+  IconHeartFilled,
+  IconUserFilled,
+  IconBellFilled,
+  IconLockFilled,
+  IconMailFilled,
+  IconEyeFilled,
+  IconCameraFilled,
+  IconPhotoFilled,
+  IconPlayerPlayFilled,
+  IconPlayerPauseFilled,
+  IconPhoneFilled,
+  IconMessageCircleFilled,
+  IconInfoCircleFilled,
+  IconAlertCircleFilled,
+  IconStarFilled,
+  IconSettingsFilled,
+  IconBookmarkFilled,
+  IconCalendarFilled,
+  IconClockFilled,
+  IconFilterFilled,
+  IconFolderFilled,
+  IconFileTextFilled,
+  IconLinkFilled,
+  IconExternalLinkFilled,
+  IconWorldFilled,
+  IconMapPinFilled,
+  IconBriefcaseFilled,
+  IconShieldFilled,
+  IconShieldCheckFilled,
+  IconKeyFilled,
+  IconDatabaseFilled,
+  IconCloudFilled,
+  IconClipboardFilled,
+  IconClipboardCheckFilled,
+  IconBoltFilled,
+  IconFlagFilled,
+  IconThumbUpFilled,
+  IconThumbDownFilled,
+  IconSunFilled,
+  IconMoonFilled,
+  IconLayoutGridFilled,
+  IconListFilled,
+  IconChartPieFilled,
+  IconHomeFilled,
 } from "@tabler/icons-react";
 
 export const icons = {
@@ -200,11 +258,78 @@ export const icons = {
 
 export type IconName = keyof typeof icons;
 
+/**
+ * Solid ("Filled") counterparts for a subset of icons — not every outline
+ * icon has an official filled twin, so `solid` falls back to the outline
+ * glyph when one isn't mapped here.
+ */
+const solidIcons: Partial<Record<IconName, typeof icons[IconName]>> = {
+  home: IconHomeFilled,
+  search: IconSearchFilled,
+  menu: IconMenu2Filled,
+  chevronRight: IconChevronRightFilled,
+  trash: IconTrashFilled,
+  edit: IconEditFilled,
+  close: IconXFilled,
+  copy: IconCopyFilled,
+  download: IconDownloadFilled,
+  cart: IconShoppingCartFilled,
+  creditCard: IconCreditCardFilled,
+  gift: IconGiftFilled,
+  tag: IconTagFilled,
+  truck: IconTruckFilled,
+  heart: IconHeartFilled,
+  user: IconUserFilled,
+  bell: IconBellFilled,
+  lock: IconLockFilled,
+  mail: IconMailFilled,
+  eye: IconEyeFilled,
+  camera: IconCameraFilled,
+  image: IconPhotoFilled,
+  play: IconPlayerPlayFilled,
+  pause: IconPlayerPauseFilled,
+  phone: IconPhoneFilled,
+  message: IconMessageCircleFilled,
+  info: IconInfoCircleFilled,
+  alert: IconAlertCircleFilled,
+  star: IconStarFilled,
+  settings: IconSettingsFilled,
+  bookmark: IconBookmarkFilled,
+  calendar: IconCalendarFilled,
+  clock: IconClockFilled,
+  filter: IconFilterFilled,
+  folder: IconFolderFilled,
+  file: IconFileTextFilled,
+  link: IconLinkFilled,
+  externalLink: IconExternalLinkFilled,
+  globe: IconWorldFilled,
+  mapPin: IconMapPinFilled,
+  briefcase: IconBriefcaseFilled,
+  shield: IconShieldFilled,
+  shieldCheck: IconShieldCheckFilled,
+  key: IconKeyFilled,
+  database: IconDatabaseFilled,
+  cloud: IconCloudFilled,
+  clipboard: IconClipboardFilled,
+  clipboardCheck: IconClipboardCheckFilled,
+  bolt: IconBoltFilled,
+  flag: IconFlagFilled,
+  thumbUp: IconThumbUpFilled,
+  thumbDown: IconThumbDownFilled,
+  sun: IconSunFilled,
+  moon: IconMoonFilled,
+  layoutGrid: IconLayoutGridFilled,
+  list: IconListFilled,
+  chartPie: IconChartPieFilled,
+};
+
 export interface IconComponentProps extends Omit<IconProps, "ref"> {
   name: IconName;
+  /** Render the solid/filled glyph instead of the outline one, when available. */
+  solid?: boolean;
 }
 
-export function Icon({ name, size = 20, stroke = 1.75, ...props }: IconComponentProps) {
-  const Component = icons[name];
+export function Icon({ name, solid, size = 20, stroke = 1.75, ...props }: IconComponentProps) {
+  const Component = (solid && solidIcons[name]) || icons[name];
   return <Component size={size} stroke={stroke} {...props} />;
 }
