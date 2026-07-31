@@ -1,4 +1,4 @@
-import { useState, type SelectHTMLAttributes } from "react";
+import { useState, type KeyboardEvent, type SelectHTMLAttributes } from "react";
 import { cn } from "../lib/cn";
 import { Icon } from "./Icon";
 
@@ -10,11 +10,21 @@ export function Select({
   error,
   className,
   children,
-  onFocus,
+  onMouseDown,
+  onChange,
   onBlur,
+  onKeyDown,
   ...props
 }: SelectProps) {
   const [open, setOpen] = useState(false);
+
+  // Native <select> doesn't expose an "options list closed" event, so this
+  // approximates it: mousedown toggles (opening/closing the listbox),
+  // change and blur always force it closed (picking a value or tabbing
+  // away both close the listbox even though focus can remain).
+  function close() {
+    setOpen(false);
+  }
 
   return (
     <span className="relative inline-block w-full">
@@ -26,13 +36,21 @@ export function Select({
           error ? "border-danger-500 focus:outline-danger-500" : "border-neutral-300",
           className
         )}
-        onFocus={(e) => {
-          setOpen(true);
-          onFocus?.(e);
+        onMouseDown={(e) => {
+          setOpen((v) => !v);
+          onMouseDown?.(e);
+        }}
+        onChange={(e) => {
+          close();
+          onChange?.(e);
         }}
         onBlur={(e) => {
-          setOpen(false);
+          close();
           onBlur?.(e);
+        }}
+        onKeyDown={(e: KeyboardEvent<HTMLSelectElement>) => {
+          if (e.key === "Escape" || e.key === "Enter" || e.key === "Tab") close();
+          onKeyDown?.(e);
         }}
         {...props}
       >
