@@ -1,24 +1,32 @@
 import { useState } from "react";
 import { Accordion } from "./components/Accordion";
+import { AdminTopbar } from "./components/AdminTopbar";
 import { AppBar } from "./components/AppBar";
+import { AppCard } from "./components/AppCard";
 import { AppMainHeader } from "./components/AppMainHeader";
 import { Avatar } from "./components/Avatar";
 import { Badge } from "./components/Badge";
 import { BottomNavigation } from "./components/BottomNavigation";
+import { Breadcrumb } from "./components/Breadcrumb";
 import { Button } from "./components/Button";
 import { Card, CardDescription, CardTitle } from "./components/Card";
 import { Checkbox } from "./components/Checkbox";
 import { Chip } from "./components/Chip";
+import { DataTable } from "./components/DataTable";
+import { DateRangeField } from "./components/DateRangeField";
 import { Divider } from "./components/Divider";
 import { EmptyState } from "./components/EmptyState";
+import { FilterBar, FilterField } from "./components/FilterBar";
 import { Header } from "./components/Header";
 import { Icon, icons, type IconName } from "./components/Icon";
 import { IconButton } from "./components/IconButton";
 import { Input } from "./components/Input";
+import { LineChart } from "./components/LineChart";
 import { ListItem } from "./components/ListItem";
 import { LogoutButton } from "./components/LogoutButton";
 import { Modal } from "./components/Modal";
 import { NotificationBanner } from "./components/NotificationBanner";
+import { Pagination } from "./components/Pagination";
 import { PostCard } from "./components/PostCard";
 import { ProductCard } from "./components/ProductCard";
 import { ProfileCard } from "./components/ProfileCard";
@@ -117,6 +125,11 @@ function App() {
   const [searchValue, setSearchValue] = useState("디자인 시스템");
   const [chipSelected, setChipSelected] = useState<string[]>(["전체"]);
   const [bannerVisible, setBannerVisible] = useState(true);
+  const [filterStart, setFilterStart] = useState("2026-07-01");
+  const [filterEnd, setFilterEnd] = useState("2026-07-31");
+  const [tablePage, setTablePage] = useState(1);
+  const [tableSelected, setTableSelected] = useState<(string | number)[]>([2]);
+  const [favoritedApps, setFavoritedApps] = useState<string[]>(["board"]);
   const [selectedTracks, setSelectedTracks] = useState<string[]>(["t2"]);
   const [tasks, setTasks] = useState([
     { id: "d1", title: "디자인 리뷰 준비" },
@@ -428,6 +441,159 @@ function App() {
             <p className="text-xs text-neutral-500">
               사이드바 경계선의 원형 버튼으로 접고 펼칠 수 있어요.
             </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Admin & Platform">
+        <p className="text-xs text-neutral-500 mb-4">
+          어드민/플랫폼 화면에서 자주 쓰는 상단바, 브레드크럼, 검색 필터, 데이터 테이블,
+          차트, 앱 카드입니다. 네이버웍스류 어드민 콘솔을 참고했습니다.
+        </p>
+
+        <div className="space-y-3 mb-8">
+          <p className="text-xs text-neutral-500">Admin Topbar + Breadcrumb</p>
+          <div className="rounded-lg border border-neutral-200 overflow-hidden">
+            <AdminTopbar />
+            <div className="px-4 py-3 bg-neutral-0 border-b border-neutral-100">
+              <Breadcrumb
+                items={[
+                  { label: "예약", href: "#" },
+                  { label: "서비스", href: "#" },
+                  { label: "게시판" },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <p className="text-xs text-neutral-500 mb-2">Filter Bar</p>
+          <FilterBar
+            actions={
+              <>
+                <Button variant="outline" size="sm">
+                  초기화
+                </Button>
+                <Button size="sm">검색</Button>
+              </>
+            }
+          >
+            <FilterField label="결제 일시">
+              <DateRangeField
+                startValue={filterStart}
+                endValue={filterEnd}
+                onStartChange={setFilterStart}
+                onEndChange={setFilterEnd}
+              />
+            </FilterField>
+            <FilterField label="카테고리">
+              <Select className="w-32">
+                <option>전체</option>
+                <option>의류</option>
+                <option>디지털/가전</option>
+              </Select>
+            </FilterField>
+            <FilterField label="검색어">
+              <Input placeholder="상품명 검색" className="w-40" />
+            </FilterField>
+          </FilterBar>
+        </div>
+
+        <div className="mb-8">
+          <p className="text-xs text-neutral-500 mb-2">
+            Data Table (선택 · 정렬 · 페이지네이션)
+          </p>
+          <DataTable
+            columns={[
+              { key: "product", header: "상품명" },
+              { key: "amount", header: "금액", align: "right" },
+              { key: "category", header: "카테고리" },
+              {
+                key: "status",
+                header: "거래상태",
+                render: (row) => (
+                  <Badge
+                    tone={
+                      row.status === "서비스 개시"
+                        ? "success"
+                        : row.status === "구매취소"
+                        ? "danger"
+                        : "neutral"
+                    }
+                  >
+                    {row.status}
+                  </Badge>
+                ),
+              },
+            ]}
+            data={[
+              { id: 1, product: "셀러 지원 센터 상품명", amount: "50,000원", category: "의류", status: "서비스 대기" },
+              { id: 2, product: "셀러 지원 센터 상품명", amount: "50,000원", category: "의류", status: "서비스 개시" },
+              { id: 3, product: "셀러 지원 센터 상품명", amount: "50,000원", category: "디지털/가전", status: "구매취소" },
+              { id: 4, product: "셀러 지원 센터 상품명", amount: "50,000원", category: "디지털/가전", status: "서비스 완료" },
+            ]}
+            selectedIds={tableSelected}
+            onSelectedChange={setTableSelected}
+            page={tablePage}
+            totalPages={5}
+            onPageChange={setTablePage}
+          />
+        </div>
+
+        <div className="mb-8">
+          <p className="text-xs text-neutral-500 mb-2">Pagination (단독)</p>
+          <Pagination page={tablePage} totalPages={5} onChange={setTablePage} />
+        </div>
+
+        <div className="mb-8">
+          <p className="text-xs text-neutral-500 mb-2">Stat Row + Line Chart</p>
+          <div className="grid grid-cols-4 gap-3 mb-4">
+            <StatCard label="식물 수" value="56" />
+            <StatCard label="작업 수" value="56" />
+            <StatCard label="보식 수" value="56" trend={4.2} />
+            <StatCard label="작업 참여자" value="56" trend={-1.1} />
+          </div>
+          <LineChart
+            labels={["월", "화", "수", "목", "금", "토", "일"]}
+            series={[
+              { name: "관수", color: "#03c75a", data: [1500, 1700, 1600, 1700, 2200, 2500, 2500] },
+              { name: "꽃 판날", color: "#ef4444", data: [700, 800, 700, 800, 900, 1200, 1250] },
+              { name: "분갈이", color: "#f59e0b", data: [400, 450, 400, 450, 500, 900, 850] },
+              { name: "영양제 관리", color: "#3b82f6", data: [300, 320, 300, 320, 350, 450, 450] },
+            ]}
+          />
+        </div>
+
+        <div>
+          <p className="text-xs text-neutral-500 mb-2">App Card (마켓플레이스)</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <AppCard
+              name="게시판"
+              description="공지사항, 서비스 소식을 한 곳에서 관리하는 게시판 앱"
+              favorited={favoritedApps.includes("board")}
+              onFavoriteToggle={() =>
+                setFavoritedApps((prev) =>
+                  prev.includes("board")
+                    ? prev.filter((v) => v !== "board")
+                    : [...prev, "board"]
+                )
+              }
+              onManage={() => {}}
+            />
+            <AppCard
+              name="서약서"
+              description="입사자 비밀유지 서약서 등 전자 서명 발송/관리"
+              favorited={favoritedApps.includes("agreement")}
+              onFavoriteToggle={() =>
+                setFavoritedApps((prev) =>
+                  prev.includes("agreement")
+                    ? prev.filter((v) => v !== "agreement")
+                    : [...prev, "agreement"]
+                )
+              }
+              onManage={() => {}}
+            />
           </div>
         </div>
       </Section>
