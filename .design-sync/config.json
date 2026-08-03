@@ -16,6 +16,8 @@
     "AppBar": { "cardMode": "column" },
     "AppMainHeader": { "cardMode": "column" },
     "BottomNavigation": { "cardMode": "column" },
-    "Header": { "cardMode": "column" }
+    "Header": { "cardMode": "column" },
+    "AdminTopbar": { "cardMode": "column" },
+    "LoginCard": { "cardMode": "single", "viewport": "420x600" }
   }
 }

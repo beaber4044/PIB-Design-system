@@ -44,6 +44,8 @@ import { StatCard } from "./components/StatCard";
 import { Stepper } from "./components/Stepper";
 import { Switch } from "./components/Switch";
 import { Table } from "./components/Table";
+import { TableToolbar } from "./components/TableToolbar";
+import { LoginCard } from "./components/LoginCard";
 import { Tabs } from "./components/Tabs";
 import { Textarea } from "./components/Textarea";
 import { Toast } from "./components/Toast";
@@ -144,6 +146,7 @@ function App() {
   const [periodStart, setPeriodStart] = useState("2026-07-01");
   const [periodEnd, setPeriodEnd] = useState("2026-07-31");
   const [selectedTracks, setSelectedTracks] = useState<string[]>(["t2"]);
+  const [topbarEvent, setTopbarEvent] = useState("");
   const [chartMetric, setChartMetric] = useState("count");
   const [promoVisible, setPromoVisible] = useState(true);
   const [tasks, setTasks] = useState([
@@ -467,9 +470,23 @@ function App() {
         </p>
 
         <div className="space-y-3 mb-8">
-          <p className="text-xs text-neutral-500">Admin Topbar + Breadcrumb</p>
+          <p className="text-xs text-neutral-500">
+            Admin Topbar + Breadcrumb (햄버거 · 조직 전환 · 도움말 · 계정 메뉴 모두 동작)
+          </p>
           <div className="rounded-lg border border-neutral-200 overflow-hidden">
-            <AdminTopbar />
+            <AdminTopbar
+              onMenuClick={() => setTopbarEvent("메뉴 버튼 클릭 → 사이드바 토글")}
+              orgMenuItems={[
+                { label: "PIB Cloud", onClick: () => setTopbarEvent("PIB Cloud로 전환") },
+                { label: "PIB Healthcare", onClick: () => setTopbarEvent("PIB Healthcare로 전환") },
+              ]}
+              onInfoClick={() => setTopbarEvent("도움말 패널 열기")}
+              userMenuItems={[
+                { label: "내 정보", onClick: () => setTopbarEvent("내 정보 열기") },
+                { label: "환경설정", onClick: () => setTopbarEvent("환경설정 열기") },
+                { label: "로그아웃", danger: true, onClick: () => setTopbarEvent("로그아웃") },
+              ]}
+            />
             <div className="px-4 py-3 bg-neutral-0 border-b border-neutral-100">
               <Breadcrumb
                 items={[
@@ -479,6 +496,11 @@ function App() {
                 ]}
               />
             </div>
+            {topbarEvent && (
+              <div className="px-4 py-2 bg-neutral-50 text-xs text-neutral-500">
+                최근 동작: {topbarEvent}
+              </div>
+            )}
           </div>
         </div>
 
@@ -529,6 +551,18 @@ function App() {
 
         <div className="mb-8">
           <p className="text-xs text-neutral-500 mb-2">
+            Table Toolbar (필터 패널과 목록 사이 액션 버튼 간격 — 절대 버튼을 바로 붙이지 않기)
+          </p>
+          <TableToolbar
+            left="총 128명"
+            right={
+              <Button size="sm">
+                <Icon name="plus" size={14} />
+                사용자 등록
+              </Button>
+            }
+          />
+          <p className="text-xs text-neutral-500 mt-6 mb-2">
             Data Table (선택 · 정렬 · 페이지네이션)
           </p>
           <DataTable
@@ -1183,6 +1217,21 @@ function App() {
               ]}
             />
           </div>
+        </div>
+      </Section>
+
+      <Section title="Login Screen">
+        <p className="text-xs text-neutral-500 mb-4">
+          로그인 전용 화면 구성입니다. 버튼을 직접 조립하지 말고 이 컴포넌트를 그대로
+          써서 전체 너비 버튼과 카드 레이아웃을 보장하세요.
+        </p>
+        <div className="h-[560px] overflow-hidden rounded-lg border border-neutral-200">
+          <LoginCard
+            title="PIB 헬스케어센터 관리자"
+            fullScreen={false}
+            hint="테스트 계정 admin / 1234"
+            onSubmit={(e) => e.preventDefault()}
+          />
         </div>
       </Section>
     </div>
