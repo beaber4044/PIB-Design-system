@@ -149,6 +149,9 @@ function App() {
   const [topbarEvent, setTopbarEvent] = useState("");
   const [chartMetric, setChartMetric] = useState("count");
   const [promoVisible, setPromoVisible] = useState(true);
+  const [exampleRegion, setExampleRegion] = useState("all");
+  const [exampleGender, setExampleGender] = useState("all");
+  const [examplePage, setExamplePage] = useState(1);
   const [tasks, setTasks] = useState([
     { id: "d1", title: "디자인 리뷰 준비" },
     { id: "d2", title: "온보딩 카피 수정" },
@@ -1229,9 +1232,129 @@ function App() {
           <LoginCard
             title="PIB 헬스케어센터 관리자"
             fullScreen={false}
-            hint="테스트 계정 admin / 1234"
             onSubmit={(e) => e.preventDefault()}
           />
+        </div>
+      </Section>
+
+      <Section title="Example: Admin List Page">
+        <p className="text-xs text-neutral-500 mb-4">
+          검색 필터와 목록이 있는 전형적인 어드민 화면 조합 예시입니다. 사이드바 +
+          상단바 + 필터 + 툴바 + 목록을 이 구조 그대로 조립하면 됩니다. 필터는 항상
+          "전체" 옵션을 기본값으로 두고, 목록 번호는 필터링과 무관하게 1부터 이어지게
+          하세요.
+        </p>
+        <div className="h-[640px] overflow-hidden rounded-lg border border-neutral-200 flex">
+          <Sidebar
+            className="shrink-0"
+            groups={[
+              {
+                items: [
+                  { value: "users", label: "사용자 관리", icon: "users" },
+                  { value: "devices", label: "장비 관리", icon: "package" },
+                  { value: "admins", label: "관리자 관리", icon: "shieldCheck" },
+                  { value: "stats", label: "통계", icon: "chartBar" },
+                ],
+              },
+            ]}
+            activeValue="users"
+            onNavigate={() => {}}
+          />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <AdminTopbar orgName="PIB 헬스케어센터" />
+            <div className="flex-1 overflow-y-auto bg-neutral-50 p-6">
+              <h2 className="text-lg font-semibold text-neutral-900">사용자 관리</h2>
+              <p className="text-sm text-neutral-500 mt-1 mb-5">
+                등록된 회원 정보를 조회하고 관리합니다.
+              </p>
+
+              <FilterBar
+                actions={
+                  <>
+                    <Button variant="outline" size="sm">초기화</Button>
+                    <Button size="sm">검색</Button>
+                  </>
+                }
+              >
+                <FilterField label="지역">
+                  <Select value={exampleRegion} onChange={(e) => setExampleRegion(e.target.value)} className="w-28">
+                    <option value="all">전체</option>
+                    <option value="anmyeon">안면읍</option>
+                    <option value="gonam">고남면</option>
+                    <option value="taean">태안읍</option>
+                  </Select>
+                </FilterField>
+                <FilterField label="성별">
+                  <Select value={exampleGender} onChange={(e) => setExampleGender(e.target.value)} className="w-24">
+                    <option value="all">전체</option>
+                    <option value="m">남</option>
+                    <option value="f">여</option>
+                  </Select>
+                </FilterField>
+                <FilterField label="가입일">
+                  <DateRangeField
+                    startValue={filterStart}
+                    endValue={filterEnd}
+                    onStartChange={setFilterStart}
+                    onEndChange={setFilterEnd}
+                  />
+                </FilterField>
+                <FilterField label="검색">
+                  <Input placeholder="연락처로 검색" className="w-44" />
+                </FilterField>
+              </FilterBar>
+
+              <TableToolbar
+                left="총 8명"
+                right={
+                  <Button size="sm">
+                    <Icon name="plus" size={14} />
+                    사용자 등록
+                  </Button>
+                }
+              />
+
+              <DataTable
+                columns={[
+                  { key: "no", header: "No", align: "center" },
+                  { key: "region", header: "지역" },
+                  { key: "gender", header: "성별" },
+                  { key: "birth", header: "출생연도" },
+                  { key: "contact", header: "연락처" },
+                  { key: "joined", header: "가입날짜" },
+                  {
+                    key: "status",
+                    header: "상태",
+                    render: (row) => <Badge tone="success">{row.status}</Badge>,
+                  },
+                  {
+                    key: "actions",
+                    header: "관리",
+                    align: "right",
+                    render: () => (
+                      <div className="flex items-center justify-end gap-1">
+                        <IconButton icon="edit" size="sm" aria-label="수정" />
+                        <IconButton icon="trash" size="sm" aria-label="삭제" />
+                      </div>
+                    ),
+                  },
+                ]}
+                data={[
+                  { id: 1, no: 1, region: "안면읍", gender: "남", birth: "1945년생", contact: "010-13**-3751", joined: "2026-02-04", status: "활성" },
+                  { id: 2, no: 2, region: "고남면", gender: "여", birth: "1988년생", contact: "010-16**-7402", joined: "2026-03-05", status: "활성" },
+                  { id: 3, no: 3, region: "근흥면", gender: "남", birth: "1966년생", contact: "010-22**-4804", joined: "2026-05-07", status: "활성" },
+                  { id: 4, no: 4, region: "이원면", gender: "여", birth: "1973년생", contact: "010-25**-8555", joined: "2026-06-08", status: "활성" },
+                  { id: 5, no: 5, region: "소원면", gender: "남", birth: "1947년생", contact: "010-31**-5957", joined: "2026-08-10", status: "활성" },
+                  { id: 6, no: 6, region: "태안읍", gender: "여", birth: "1954년생", contact: "010-34**-9608", joined: "2026-09-11", status: "활성" },
+                  { id: 7, no: 7, region: "고남면", gender: "남", birth: "1968년생", contact: "010-40**-7010", joined: "2026-11-13", status: "활성" },
+                  { id: 8, no: 8, region: "남면", gender: "여", birth: "1975년생", contact: "010-43**-0761", joined: "2026-12-14", status: "활성" },
+                ]}
+                page={examplePage}
+                totalPages={2}
+                onPageChange={setExamplePage}
+              />
+            </div>
+          </div>
         </div>
       </Section>
     </div>
