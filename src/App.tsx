@@ -48,6 +48,14 @@ import { Tabs } from "./components/Tabs";
 import { Textarea } from "./components/Textarea";
 import { Toast } from "./components/Toast";
 import { Tooltip } from "./components/Tooltip";
+import { SetupChecklistCard } from "./components/SetupChecklistCard";
+import { AccountInfoPanel } from "./components/AccountInfoPanel";
+import { StatSummaryList } from "./components/StatSummaryList";
+import { TodayTaskBar } from "./components/TodayTaskBar";
+import { SegmentedToggle } from "./components/SegmentedToggle";
+import { DropdownButton } from "./components/DropdownButton";
+import { PromoBanner } from "./components/PromoBanner";
+import { TreeListTable } from "./components/TreeListTable";
 
 const iconNames = Object.keys(icons) as IconName[];
 
@@ -136,6 +144,8 @@ function App() {
   const [periodStart, setPeriodStart] = useState("2026-07-01");
   const [periodEnd, setPeriodEnd] = useState("2026-07-31");
   const [selectedTracks, setSelectedTracks] = useState<string[]>(["t2"]);
+  const [chartMetric, setChartMetric] = useState("count");
+  const [promoVisible, setPromoVisible] = useState(true);
   const [tasks, setTasks] = useState([
     { id: "d1", title: "디자인 리뷰 준비" },
     { id: "d2", title: "온보딩 카피 수정" },
@@ -1010,6 +1020,165 @@ function App() {
                   value: "a3",
                   title: "다크 모드를 지원하나요?",
                   content: "시스템 설정을 따라 라이트/다크 모드가 자동 전환됩니다.",
+                },
+              ]}
+            />
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Admin Dashboard">
+        <div className="space-y-6">
+          {promoVisible && (
+            <PromoBanner
+              icon="bell"
+              title="회원가입과 채널 연동을 한 번에! 알림 연동을 시작해보세요."
+              actionLabel="시작하기"
+              onAction={() => {}}
+              onClose={() => setPromoVisible(false)}
+            />
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <SetupChecklistCard
+              title="기본 설정"
+              items={[
+                { label: "사이트 정보 설정하기", done: true },
+                { label: "디자인 편집하기", done: true },
+                { label: "약관 설정하기", done: false },
+                { label: "도메인 연결하기", done: false },
+              ]}
+              onSkip={() => {}}
+            />
+            <SetupChecklistCard
+              title="성장하기"
+              items={[
+                { label: "검색엔진 최적화", done: true },
+                { label: "검색엔진 등록하기", done: false },
+                { label: "소셜 로그인 설정하기", done: false },
+              ]}
+              onSkip={() => {}}
+            />
+          </div>
+
+          <TodayTaskBar
+            title="오늘의 할일"
+            items={[
+              { label: "신규 문의", value: 3 },
+              { label: "답변 대기", value: 1 },
+              { label: "처리중", value: 0 },
+              { label: "반품/교환", value: 0 },
+            ]}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <StatSummaryList
+              title="주문/배송"
+              icon="package"
+              tone="brand"
+              timestamp="최근 14:21"
+              rows={[
+                { label: "결제대기", value: 0 },
+                { label: "신규주문", value: 2 },
+                { label: "배송준비", value: 1, indent: true },
+                { label: "배송중", value: 0, indent: true },
+              ]}
+            />
+            <StatSummaryList
+              title="클레임/정산"
+              icon="wallet"
+              tone="warning"
+              timestamp="최근 14:21"
+              rows={[
+                { label: "취소요청", value: 0 },
+                { label: "반품요청", value: 1 },
+                { label: "오늘정산", value: "128,000", unit: "원" },
+              ]}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2 rounded-lg border border-neutral-200 p-5">
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-sm font-semibold text-neutral-900">스토어 매출 통계</p>
+                <SegmentedToggle
+                  value={chartMetric}
+                  onChange={setChartMetric}
+                  options={[
+                    { value: "count", label: "결제건수" },
+                    { value: "buyers", label: "결제자수" },
+                    { value: "amount", label: "결제금액" },
+                  ]}
+                />
+              </div>
+              <LineChart
+                labels={["월", "화", "수", "목", "금", "토", "일"]}
+                series={[
+                  {
+                    name: "방문자",
+                    color: "#03c75a",
+                    data: [120, 180, 150, 210, 260, 300, 280],
+                  },
+                ]}
+              />
+            </div>
+            <AccountInfoPanel
+              name="관리자"
+              email="admin@pib.io"
+              planLabel="Free"
+              rows={[
+                { label: "도메인", value: "기본 도메인 사용 중", action: { label: "연결", tone: "brand" } },
+                { label: "SSL", value: "사용 중" },
+                { label: "APP", value: "미사용", action: { label: "설정", tone: "brand" } },
+              ]}
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-semibold text-neutral-900">게시판 관리</p>
+              <DropdownButton
+                label="더보기"
+                items={[
+                  { label: "목록 편집" },
+                  { label: "카테고리 추가" },
+                  { label: "삭제", danger: true },
+                ]}
+              />
+            </div>
+            <TreeListTable
+              columns={[
+                { key: "domain", header: "소유 도메인" },
+                { key: "count", header: "게시글 수", align: "right" },
+                { key: "type", header: "게시판 타입" },
+              ]}
+              rows={[
+                {
+                  id: "notice",
+                  label: "공지사항",
+                  bold: true,
+                  cells: { domain: "", count: "", type: "" },
+                },
+                {
+                  id: "news",
+                  label: "새소식",
+                  depth: 1,
+                  badge: { label: "공개", tone: "success" },
+                  cells: { domain: "PIB CLOUD", count: 10, type: "미리보기형" },
+                },
+                {
+                  id: "service",
+                  label: "서비스 소식",
+                  depth: 1,
+                  badge: { label: "게시판", tone: "brand" },
+                  cells: { domain: "PIB CLOUD", count: 30, type: "앨범형" },
+                },
+                {
+                  id: "inquiry",
+                  label: "문의하기",
+                  depth: 1,
+                  badge: { label: "비공개", tone: "neutral" },
+                  cells: { domain: "PIB CLOUD", count: 5, type: "게시판형" },
                 },
               ]}
             />
