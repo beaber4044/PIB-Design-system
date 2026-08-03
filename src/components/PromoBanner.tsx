@@ -4,7 +4,7 @@ import { Icon, type IconName } from "./Icon";
 
 type Tone = "brand" | "warning" | "info" | "dark";
 
-export interface PromoBannerProps extends HTMLAttributes<HTMLDivElement> {
+export interface PromoBannerProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   icon?: IconName;
   title: ReactNode;
   actionLabel?: string;
