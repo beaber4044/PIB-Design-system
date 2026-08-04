@@ -152,6 +152,7 @@ function App() {
   const [exampleRegion, setExampleRegion] = useState("all");
   const [exampleGender, setExampleGender] = useState("all");
   const [examplePage, setExamplePage] = useState(1);
+  const [dashboardRange, setDashboardRange] = useState("day");
   const [tasks, setTasks] = useState([
     { id: "d1", title: "디자인 리뷰 준비" },
     { id: "d2", title: "온보딩 카피 수정" },
@@ -1226,12 +1227,21 @@ function App() {
       <Section title="Login Screen">
         <p className="text-xs text-neutral-500 mb-4">
           로그인 전용 화면 구성입니다. 버튼을 직접 조립하지 말고 이 컴포넌트를 그대로
-          써서 전체 너비 버튼과 카드 레이아웃을 보장하세요.
+          써서 전체 너비 버튼과 카드 레이아웃을 보장하세요. 로고를 카드 위에 크게
+          두고, 로그인 상태 유지 체크박스와 보조 로그인 버튼, 카드 아래 링크까지
+          한 번에 조립됩니다.
         </p>
-        <div className="h-[560px] overflow-hidden rounded-lg border border-neutral-200">
+        <div className="h-[640px] overflow-hidden rounded-lg border border-neutral-200">
           <LoginCard
-            title="PIB 헬스케어센터 관리자"
+            title="PIB 헬스케어센터"
             fullScreen={false}
+            rememberLabel="로그인 상태 유지"
+            secondaryAction={{ label: "패스키 로그인", icon: "shieldCheck" }}
+            footerLinks={[
+              { label: "아이디 찾기" },
+              { label: "비밀번호 찾기" },
+              { label: "회원가입" },
+            ]}
             onSubmit={(e) => e.preventDefault()}
           />
         </div>
@@ -1353,6 +1363,91 @@ function App() {
                 totalPages={2}
                 onPageChange={setExamplePage}
               />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Example: Dashboard Overview">
+        <p className="text-xs text-neutral-500 mb-4">
+          강조 통계 카드 + 멀티컬러 차트 + 요약 패널을 조합한 대시보드 홈 예시입니다.
+          핵심 지표 하나만 <code className="text-[11px]">tone=&quot;brand&quot;</code>로
+          강조하고, 나머지는 중립 톤으로 눌러서 위계를 만드세요.
+        </p>
+        <div className="h-[640px] overflow-hidden rounded-lg border border-neutral-200 flex">
+          <Sidebar
+            className="shrink-0"
+            groups={[
+              {
+                items: [
+                  { value: "dashboard", label: "대시보드", icon: "layoutGrid" },
+                  { value: "users", label: "사용자 관리", icon: "users" },
+                  { value: "orders", label: "주문 관리", icon: "cart" },
+                  { value: "settings", label: "환경설정", icon: "settings" },
+                ],
+              },
+            ]}
+            activeValue="dashboard"
+            onNavigate={() => {}}
+          />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <AdminTopbar orgName="PIB 헬스케어센터" />
+            <div className="flex-1 overflow-y-auto bg-neutral-50 p-6">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <h2 className="text-lg font-semibold text-neutral-900">대시보드</h2>
+                  <p className="text-sm text-neutral-500 mt-1">오늘의 운영 현황을 한눈에 확인하세요.</p>
+                </div>
+                <SegmentedToggle
+                  value={dashboardRange}
+                  onChange={setDashboardRange}
+                  options={[
+                    { value: "day", label: "일간" },
+                    { value: "week", label: "주간" },
+                    { value: "month", label: "월간" },
+                  ]}
+                />
+              </div>
+
+              <div className="grid grid-cols-4 gap-3 mb-5">
+                <StatCard tone="brand" label="오늘 매출" value="8,999,000원" trend={12} />
+                <StatCard label="결제 건수" value="230건" trend={4} />
+                <StatCard label="신규 방문자" value="1,204명" trend={-2} />
+                <StatCard label="전환율" value="3.4%" trend={1} />
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2 rounded-lg border border-neutral-200 bg-neutral-0 p-5">
+                  <h3 className="text-sm font-semibold text-neutral-900 mb-4">방문자 · 매출 추이</h3>
+                  <LineChart
+                    labels={["월", "화", "수", "목", "금", "토", "일"]}
+                    series={[
+                      { name: "방문자", color: "#3b82f6", data: [420, 480, 510, 460, 600, 720, 690] },
+                      { name: "매출", color: "#03c75a", data: [220, 260, 300, 280, 340, 420, 400] },
+                      { name: "신규가입", color: "#f59e0b", data: [80, 90, 70, 100, 120, 140, 130] },
+                    ]}
+                  />
+                </div>
+                <div className="rounded-lg border border-neutral-200 bg-neutral-0 p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-semibold text-neutral-900">실시간 리포트</h3>
+                    <span className="text-[11px] text-neutral-400">최근 14:21</span>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { label: "페이지뷰", value: "1,225건" },
+                      { label: "방문고객수", value: "1,300명" },
+                      { label: "유입수", value: "222건" },
+                      { label: "결제금액", value: "33,890,100원" },
+                    ].map((row) => (
+                      <div key={row.label} className="flex items-center justify-between text-sm">
+                        <span className="text-neutral-500">{row.label}</span>
+                        <span className="font-medium text-neutral-900 tabular-nums">{row.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

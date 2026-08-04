@@ -48,7 +48,7 @@ export function DataTable<T extends { id: string | number }>({
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="w-full overflow-x-auto rounded-lg border border-neutral-200">
+      <div className="w-full overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-0 shadow-sm">
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="border-b border-neutral-200 bg-neutral-50">

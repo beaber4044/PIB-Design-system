@@ -9,7 +9,7 @@ export function FilterBar({ children, actions, className, ...props }: FilterBarP
   return (
     <div
       className={cn(
-        "flex flex-wrap items-end justify-between gap-4 rounded-lg border border-neutral-200 bg-neutral-50 p-4",
+        "flex flex-wrap items-end justify-between gap-4 rounded-lg border border-neutral-200 bg-neutral-0 p-4 shadow-sm",
         className
       )}
       {...props}

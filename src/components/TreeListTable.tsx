@@ -121,7 +121,7 @@ export function TreeListTable({ columns, rows, className }: TreeListTableProps) 
   }
 
   return (
-    <div className={cn("w-full overflow-x-auto rounded-lg border border-neutral-200", className)}>
+    <div className={cn("w-full overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-0 shadow-sm", className)}>
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr className="border-b border-neutral-200 bg-neutral-50">

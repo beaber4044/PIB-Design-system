@@ -21,3 +21,13 @@ export function NegativeTrend() {
 export function NoTrend() {
   return <StatCard label="누적 방문자" value="128,430" />
 }
+
+export function HighlightRow() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, maxWidth: 480 }}>
+      <StatCard tone="brand" label="오늘 매출" value="8,999,000원" trend={12} />
+      <StatCard label="결제 건수" value="230건" trend={4} />
+      <StatCard label="신규 방문자" value="1,204명" trend={-2} />
+    </div>
+  )
+}
