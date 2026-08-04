@@ -41,6 +41,7 @@ export * from "./AdminTopbar";
 export * from "./Breadcrumb";
 export * from "./FilterBar";
 export * from "./DateRangeField";
+export * from "./DateField";
 export * from "./Pagination";
 export * from "./DataTable";
 export * from "./LineChart";
