@@ -70,7 +70,7 @@ export function LoginCard({
         className
       )}
     >
-      <div className="flex w-full max-w-sm flex-col items-center">
+      <div className="flex w-full max-w-md flex-col items-center">
         <div className="mb-9 flex flex-col items-center gap-3">
           {logo ?? <span className="h-12 w-12 shrink-0 rounded-2xl bg-brand-500" />}
           <span className="text-xl font-extrabold text-neutral-900">{title}</span>
