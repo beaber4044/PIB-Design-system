@@ -22,7 +22,7 @@ export function DateField({ value, onChange, className, ...props }: DateFieldPro
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "h-9 w-36 rounded-md border border-neutral-300 bg-neutral-0 pl-3 pr-8 text-xs text-neutral-900",
+          "h-10 w-36 rounded-md border border-neutral-300 bg-neutral-0 pl-3 pr-8 text-sm text-neutral-900",
           "focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-brand-500",
           // Hide the native calendar glyph but stretch it over the whole
           // field, so clicking anywhere in the box opens the date picker.
