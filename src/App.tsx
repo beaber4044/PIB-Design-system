@@ -19,6 +19,7 @@ import { EmptyState } from "./components/EmptyState";
 import { FilterBar, FilterField } from "./components/FilterBar";
 import { Header } from "./components/Header";
 import { Icon, icons, type IconName } from "./components/Icon";
+import { ColorIcon, type ColorIconName } from "./components/ColorIcon";
 import { IconTile } from "./components/IconTile";
 import { IconButton } from "./components/IconButton";
 import { Input } from "./components/Input";
@@ -60,6 +61,18 @@ import { PromoBanner } from "./components/PromoBanner";
 import { TreeListTable } from "./components/TreeListTable";
 
 const iconNames = Object.keys(icons) as IconName[];
+const colorIconNames: ColorIconName[] = [
+  "home",
+  "calendar",
+  "folder",
+  "settings",
+  "lightbulb",
+  "like",
+  "check",
+  "bell",
+  "star",
+  "file",
+];
 
 const colorGroups: { name: string; shades: [string, string][] }[] = [
   {
@@ -887,6 +900,36 @@ function App() {
               <IconTile icon="flag" tone="warning" solid />
               <IconTile icon="thumbDown" tone="danger" solid />
               <IconTile icon="shieldCheck" tone="success" solid shape="circle" />
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs text-neutral-500 mb-2">
+              풀컬러 · 입체형 (ColorIcon — 온보딩/빈 상태/하이라이트용 포인트 아이콘)
+            </p>
+            <div className="space-y-4">
+              <div>
+                <p className="text-[11px] text-neutral-400 mb-2">set=&quot;plump&quot;</p>
+                <div className="flex flex-wrap items-center gap-4">
+                  {colorIconNames.map((name) => (
+                    <div key={name} className="flex flex-col items-center gap-1.5">
+                      <ColorIcon name={name} set="plump" size={32} />
+                      <span className="text-[11px] text-neutral-400">{name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[11px] text-neutral-400 mb-2">set=&quot;flex&quot;</p>
+                <div className="flex flex-wrap items-center gap-4">
+                  {colorIconNames.map((name) => (
+                    <div key={name} className="flex flex-col items-center gap-1.5">
+                      <ColorIcon name={name} set="flex" size={32} />
+                      <span className="text-[11px] text-neutral-400">{name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

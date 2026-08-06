@@ -4,6 +4,7 @@ export * from "./Badge";
 export * from "./Card";
 export * from "./ProductCard";
 export * from "./Icon";
+export * from "./ColorIcon";
 export * from "./Header";
 export * from "./AppBar";
 export * from "./AppMainHeader";
